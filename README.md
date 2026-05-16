@@ -1,8 +1,8 @@
-<h1 align="center">Welcome to sisakti-plus 👋</h1>
+<h1 align="center">Welcome to unud-event 👋</h1>
 <p>
 </p>
 
-> Sisakti Plus adalah pengembangan dari sistem milik udayana bernama sisakti. Sistem ini dibuat untuk memenuhi tugas akhir matakuliah Pemrograman Berbasis Web dan Sistem Informasi.
+> **Unud Event** adalah platform integrasi informasi kegiatan (event) di lingkungan Universitas Udayana. Platform ini dirancang untuk mengonsolidasikan seluruh informasi program kerja kemahasiswaan dari berbagai lembaga—mulai dari DPM, BEM, Himpunan Mahasiswa, hingga Unit Kegiatan Mahasiswa (UKM)—ke dalam satu wadah yang terpusat, terstruktur, dan akuntabel.
 
 ## Tech Stack
 
