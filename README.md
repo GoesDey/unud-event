@@ -15,7 +15,7 @@
 
 ## Author
 
-👤 **Satria, Candra, Deas, Mayuri, Leo**
+👤 **Satria, Candra, Gusde, Deas, Rio**
 
 ---
 
