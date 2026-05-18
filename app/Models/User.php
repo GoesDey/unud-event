@@ -31,6 +31,21 @@ class User extends Authenticatable
         ];
     }
 
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class);
+    }
+
+    public function major()
+    {
+        return $this->belongsTo(Major::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
     /**
      * Get the user's initials
      */
