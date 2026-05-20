@@ -15,9 +15,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            FacultySeeder::class,
+            MajorSeeder::class,
+            UserSeeder::class,
+            EventTypeSeeder::class,
+            CategorySeeder::class,
+            ParticipantSeeder::class,      // 1. Jalankan master peserta ('SD', 'SMP', dll)
+            EventSeeder::class,            // 2. Jalankan pembuatan 5 event
+            EventCategorySeeder::class,    // 3. Hubungkan event dengan kategori
+            EventParticipantSeeder::class, // 4. Hubungkan event dengan target peserta (Paling akhir)
         ]);
     }
 }

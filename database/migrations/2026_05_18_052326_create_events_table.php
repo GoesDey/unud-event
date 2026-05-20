@@ -18,13 +18,13 @@ return new class extends Migration
             $table->longText('description');
             $table->string('faculty', 50)->nullable();
             $table->string('major', 50)->nullable();
-            $table->string('instance', 50)->nullable();
+            $table->string('instance', 50)->nullable()->default('Universitas Udayana');
             $table->string('picture');
             $table->enum('location', ['online', 'offline']);
             $table->boolean('is_paid')->default(false);
             $table->date('start_date');
             $table->date('end_date');
-            });
+        });
     }
 
     /**
