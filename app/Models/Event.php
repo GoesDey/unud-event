@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
+    use HasFactory;
+    public $timestamps = false;
    public function categories()
    {
        return $this->belongsToMany(Category::class, 'event_category');
@@ -28,7 +31,7 @@ class Event extends Model
 
    public function participants()
    {
-       return $this->belongsToMany(Participant::class, 'event_participant');
+       return $this->belongsToMany(Participant::class, 'event_participant')->withTimestamps();
    }
 
    public function detailEvents()
