@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('major', 50)->nullable();
             $table->string('instance', 50)->nullable();
             $table->string('picture');
+            $table->boolean('status')->default(true);
             $table->enum('location', ['online', 'offline']);
             $table->boolean('is_paid')->default(false);
             $table->date('start_date');
