@@ -14,16 +14,17 @@ class EventTypeSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            'Lomba',
-            'Seminar',
-            'Pengabdian',
-            'Workshop',
-            'Webinar'
+            'Lomba' => 'Tunjukkan kemampuanmu dan bersaing dengan mahasiswa lain dalam berbagai jenis kompetisi akademik dan non-akademik.' , 
+            'Seminar' => 'Dapatkan ilmu baru dan diskusikan tren topik hangat langsung bersama para pakar dan praktisi profesional secara tatap muka.',
+            'Pengabdian' => 'Berikan dampak positif dengan mengikuti program pengabdian yang membantu masyarakat sekitar kampus.',
+            'Workshop' => 'Asah keterampilan teknis dan praktikkan keahlian baru secara langsung melalui sesi pelatihan yang intensif dan aplikatif.',
+            'Webinar' => 'Perluas wawasan melalui sesi pembelajaran interaktif dengan pembicara berpengalaman dari berbagai bidang industri.',
         ];
 
-        foreach ($types as $type) {
+        foreach ($types as $type => $value) {
             EventType::create([
-                'name' => $type
+                'name' => $type,
+                'description' => $value,
             ]);
         }
     }
