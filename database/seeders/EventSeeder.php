@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\DetailEvent;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Timeline;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class EventSeeder extends Seeder
@@ -18,58 +18,98 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
+        $adminUsers = User::where('role', 'admin')->get(); 
+
+        $categories = Category::all();
         $eventTypes = EventType::all();
 
-        for ($i = 0; $i < 5; $i++) {
-            $randomUser = $users->random();
-            $randomType = $eventTypes->random();
+        $eventMapping = [
+            'Lomba' => [
+                ['name' => 'Udayana Hackathon: Inovasi Digital Mahasiswa', 'location' => 'offline', 'price' => 50000],
+                ['name' => 'Olimpiade Karya Tulis Ilmiah Tingkat Nasional', 'location' => 'online', 'price' => 0],
+            ],
+            'Seminar' => [
+                ['name' => 'Seminar Nasional: Eksistensi Budaya Bali di Era Gen-Z', 'location' => 'offline', 'price' => 35000],
+                ['name' => 'Talkshow Kewirausahaan: Merintis Bisnis Sejak Kuliah', 'location' => 'offline', 'price' => 20000],
+            ],
+            'Pengabdian' => [
+                ['name' => 'Udayana Mengabdi: Program Mengajar di Desa Binaan', 'location' => 'offline', 'price' => 0],
+                ['name' => 'Bakti Sosial: Cek Kesehatan & Donor Darah Massal', 'location' => 'offline', 'price' => 0],
+            ],
+            'Workshop' => [
+                ['name' => 'Workshop UI/UX: Membangun Aplikasi Ramah Pengguna', 'location' => 'offline', 'price' => 75000],
+                ['name' => 'Pelatihan Web Development Menggunakan Laravel', 'location' => 'online', 'price' => 50000],
+            ],
+            'Webinar' => [
+                ['name' => 'Webinar Karir: Rahasia Lolos Interview Perusahaan Multinasional', 'location' => 'online', 'price' => 0],
+                ['name' => 'Webinar Beasiswa: Tips Jitu Tembus LPDP 2026', 'location' => 'online', 'price' => 0],
+            ],
+        ];
 
-            $event = Event::factory()->create([
-                'user_id' => $randomUser->id,
-                'event_type_id' => $randomType->id,
+        foreach ($eventTypes as $type) {
+            if (isset($eventMapping[$type->name])) {
                 
-                'faculty' => $randomUser->faculty ? $randomUser->faculty->name : null,
-                'major' => $randomUser->major ? $randomUser->major->name : null,
-            ]);
+                // Looping 2 event di dalam setiap tipe
+                foreach ($eventMapping[$type->name] as $item) {
+                    
+                    $randomAdmin = $adminUsers->random();
+                    $startDate = Carbon::now()->addDays(rand(7, 30)); 
 
-            $detailsPreset = [
-                'Narasumber' => fake()->name() . ' (' . fake()->jobTitle() . ')',
-                'Benefit' => 'Sertifikat Nasional, Makan Siang Gratis, Merchandise Kit',
-                'Contact Person' => fake()->name() . ' (08' . fake()->numerify('########') . ')',
-                'Syarat & Ketentuan' => 'Membawa KTM aktif dan mengenakan pakaian rapi berkemeja.',
-            ];
+                    $event = Event::create([
+                        'user_id' => $randomAdmin->id,
+                        'event_type_id' => $type->id,
+                        'name' => $item['name'],
+                        'description' => 'Ini adalah deskripsi dummy untuk acara ' . $item['name'] . '. Acara ini diselenggarakan untuk meningkatkan kapasitas mahasiswa Universitas Udayana.',
+                        'faculty' => $randomAdmin->faculty ? $randomAdmin->faculty->name : null,
+                        'major' => $randomAdmin->major ? $randomAdmin->major->name : null,
+                        'instance' => $randomAdmin->major ? 'Himpunan Mahasiswa ' . $randomAdmin->major->name : 'Badan Eksekutif Mahasiswa Unud',
+                        'picture' => 'https://placehold.co/900x1200/png?text=Event+Udayana',
+                        'location' => $item['location'],
+                        'price' => $item['price'],
+                        'start_date' => $startDate->toDateString(),
+                        'end_date' => $startDate->copy()->addDays(rand(0, 2))->toDateString(),
+                    ]);
 
-            foreach ($detailsPreset as $label => $value) {
-                DetailEvent::create([
-                    'event_id' => $event->id,
-                    'label' => $label,
-                    'value' => $value,
-                ]);
-            }
+                    $event->categories()->attach(
+                        $categories->random(rand(1, 3))->pluck('id')->toArray()
+                    );
 
-            $timelinePreset = [
-                'Registrasi Ulang Peserta' => ['start_hour' => 8, 'duration' => 1],   // 08:00 - 09:00
-                'Pembukaan oleh Dekan / Rektor' => ['start_hour' => 9, 'duration' => 1], // 09:00 - 10:00
-                'Sesi Inti (Penyampaian Materi)' => ['start_hour' => 10, 'duration' => 3], // 10:00 - 13:00
-                'Sesi Tanya Jawab & Istirahat' => ['start_hour' => 13, 'duration' => 1],  // 13:00 - 14:00
-                'Penutupan & Pembagian Doorprize' => ['start_hour' => 14, 'duration' => 1], // 14:00 - 15:00
-            ];
+                    // DetailEvent
+                    $detailsPreset = [
+                        'Narasumber' => fake()->name() . ' (' . fake()->jobTitle() . ')',
+                        'Benefit' => 'Sertifikat Nasional, SKP, Merchandise Kit',
+                        'Contact Person' => fake()->name() . ' (08' . fake()->numerify('########') . ')',
+                        'Syarat & Ketentuan' => 'Membawa KTM aktif dan mengenakan almamater Universitas Udayana.',
+                    ];
 
-            $baseDate = Carbon::parse($event->start_date);
+                    foreach ($detailsPreset as $label => $value) {
+                        DetailEvent::create([
+                            'event_id' => $event->id,
+                            'label' => $label,
+                            'value' => $value,
+                        ]);
+                    }
 
-            foreach ($timelinePreset as $description => $timeInfo) {
+                    // Buat Data Timeline
+                    $timelinePreset = [
+                        'Registrasi Peserta' => ['start_hour' => 8, 'duration' => 1],
+                        'Pembukaan Acara' => ['start_hour' => 9, 'duration' => 1],
+                        'Sesi Inti Acara' => ['start_hour' => 10, 'duration' => 3],
+                        'Tanya Jawab & Penutup' => ['start_hour' => 13, 'duration' => 1],
+                    ];
 
-                $startTime = (clone $baseDate)->setTime($timeInfo['start_hour'], 0, 0);
-                
-                $endTime = (clone $startTime)->addHours($timeInfo['duration']);
+                    foreach ($timelinePreset as $desc => $timeInfo) {
+                        $startTL = (clone $startDate)->setTime($timeInfo['start_hour'], 0, 0);
+                        $endTL = (clone $startTL)->addHours($timeInfo['duration']);
 
-                Timeline::create([
-                    'event_id' => $event->id,
-                    'description' => $description,
-                    'start' => $startTime,
-                    'end' => $endTime,
-                ]);
+                        Timeline::create([
+                            'event_id' => $event->id,
+                            'description' => $desc,
+                            'start' => $startTL,
+                            'end' => $endTL,
+                        ]);
+                    }
+                }
             }
         }
     }
