@@ -31,7 +31,7 @@
 @endphp
 
 <body class="font-inter bg-soft-blue">
-   <header class="fixed top-0 w-full">
+   <header class="fixed z-999 bg-white top-0 w-full">
       <nav class="flex items-center justify-between px-30 py-6 text-xl font-bold shadow-lg">
          <div class="flex items-center gap-2.5">
             <x-icons.logo />
