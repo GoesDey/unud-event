@@ -14,7 +14,7 @@
    $menus = [
       [
          'title' => 'Dashboard',
-         'isActive' => request()->is('home') || request()->is('/'),
+         'isActive' => request()->routeIs('admin.dashboard'),
          'to' => '/admin',
          'icon' => 'house',
       ],
@@ -24,16 +24,10 @@
          'to' => '/admin/manage-events',
          'icon' => 'horn',
       ],
-      [
-         'title' => 'Kalender Akademik',
-         'isActive' => false,
-         'to' => '/admin/calendar',
-         'icon' => 'calendar',
-      ],
    ];
 @endphp
 
-<body class="font-poppins bg-soft-blue">
+<body class="font-inter bg-soft-blue">
    <div class="">
       <nav class="fixed top-0 left-0 flex min-h-screen w-72.5 flex-col bg-white pt-14">
          <div class="relative mx-auto mb-5.5 w-fit flex-none px-8.25">
@@ -59,9 +53,16 @@
                   >
                @endforeach
             </div>
-            <x-navlink icon="logout" class="cursor-pointer" iconClass="!text-[#4318FF] !size-4.5"
-               >Logout</x-navlink
-            >
+            <form method="POST" action="{{ route('admin.logout') }}">
+               @csrf
+               <x-navlink
+                  type="submit"
+                  icon="logout"
+                  class="cursor-pointer"
+                  iconClass="!text-[#4318FF] !size-4.5"
+                  >Logout</x-navlink
+               >
+            </form>
          </div>
       </nav>
       <main class="ml-72.5 min-h-screen">
