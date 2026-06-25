@@ -63,7 +63,7 @@ class EventSeeder extends Seeder
                         'faculty' => $randomAdmin->faculty ? $randomAdmin->faculty->name : null,
                         'major' => $randomAdmin->major ? $randomAdmin->major->name : null,
                         'instance' => $randomAdmin->major ? 'Himpunan Mahasiswa ' . $randomAdmin->major->name : 'Badan Eksekutif Mahasiswa Unud',
-                        'picture' => 'https://placehold.co/900x1200/png?text=Event+Udayana',
+                        'picture' => 'home/image-event-test.png',
                         'location' => $item['location'],
                         'price' => $item['price'],
                         'start_date' => $startDate->toDateString(),

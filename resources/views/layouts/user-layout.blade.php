@@ -53,7 +53,7 @@
       </nav>
    </header>
    <div class="flex min-h-screen flex-col">
-      <main class="mt-25 grow px-20 py-16">
+      <main class="mt-25 grow p-16">
          @yield ('content')
       </main>
       <footer class="bg-primary p-12 text-white">
