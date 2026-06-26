@@ -19,7 +19,6 @@
    </a>
 @else
    <button
-      wire:navigate
       {{
          $attributes->class([
             'font-bold text-[#2B3674] flex gap-4 items-center w-full h-full relative py-1.5',
