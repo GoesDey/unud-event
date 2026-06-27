@@ -8,7 +8,7 @@
      ]
 @endphp
 {{-- @dd($data->picture) --}}
-<div class="rounded-xl flex flex-col w-112.5 h-fit overflow-hidden shadow-md shadow-primary/30">
+<div class="rounded-xl flex flex-col w-full h-fit overflow-hidden shadow-md shadow-primary/30">
      <div class="w-full h-137.5 relative">
           <img class="w-full h-full object-cover" src="{{ asset('storage/' . $data->picture) }}" alt="event image">
           <x-tag class="absolute! top-2 right-2 w-fit">{{ $data->eventType->name }}</x-tag>
@@ -41,8 +41,8 @@
                     </div>
                </div>
           </div>
-          <button class="w-full text-center gap-2 bg-secondary rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
-               <span class="text-primary font-bold">Lihat Detail</span>
-          </button>
+          <a href="{{ route('event-detail', $data->id) }}" class="w-full block text-center gap-2 bg-secondary text-primary font-bold rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
+               Lihat Detail
+          </a>
      </div>
 </div>
