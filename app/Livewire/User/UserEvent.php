@@ -77,15 +77,15 @@ class UserEvent extends Component
 
         $query = Event::with('eventType', 'categories', 'participants');
 
-        if (!(is_null($this->activeEventType))) {
+        if ($this->activeEventType) {
             $query->where('event_type_id', $this->activeEventType);
         }
-        if (!is_null($this->activeCategory)) {
+        if ($this->activeCategory) {
         $query->whereHas('categories', function ($q) {
                 $q->where('categories.id', $this->activeCategory);
             });
         }
-        if (!is_null($this->activeParticipant)) {
+        if ($this->activeParticipant) {
             $query->whereHas('participants', function ($q) {
                 $q->where('participants.id', $this->activeParticipant);
             });
@@ -93,7 +93,7 @@ class UserEvent extends Component
         if (!empty($this->search)) {
             $query->where('name', 'like', '%' . $this->search . '%');
         }
-        if (!is_null($this->activePrice)) {
+        if ($this->activePrice) {
             if ($this->activePrice === 'berbayar') {
                 $query->where('price', '>', 0);
             } 
@@ -103,7 +103,7 @@ class UserEvent extends Component
                 });
             }
         }
-        if (!is_null($this->activeLocation)) {
+        if ($this->activeLocation) {
             $query->where('location', $this->activeLocation);
         }
 
