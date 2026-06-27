@@ -20,7 +20,7 @@
           
           <div class="{{ $width }} flex flex-col divide-y divide-primary-50 max-h-80 overflow-y-auto">
                @foreach ($data as $product)
-                    <button wire:click="{{ $methodName }}({{ $product->id }})" type="button"
+                    <button wire:click="{{ $methodName }}('{{ $product->id }}')" type="button"
                          x-on:click="currentLabel = '{{ $product->name }}'; isShow = false"
                          class="w-full block text-left px-4 py-2.5 text-sm text-zinc-600 hover:bg-zinc-50 active:bg-zinc-100 transition-colors cursor-pointer"
                          > {{ $product->name }}
@@ -28,7 +28,7 @@
                @endforeach
                <button type="button"
                     wire:click="{{ $methodName }}('')"
-                    x-on:click="currentLabel = 'Pilih {{ $label }}'; isShow = false"
+                    x-on:click="currentLabel = '{{ $label }}'; isShow = false"
                     class="w-full block text-center px-4 py-2.5 text-sm text-rose-600 font-medium hover:bg-rose-50 active:bg-rose-100 transition-colors cursor-pointer"
                     > Clear Filter
                </button>

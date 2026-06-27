@@ -17,40 +17,44 @@
      ]
 @endphp
 <div class="flex flex-col justify-center">
-     <div class="mb-6">
-          <h1 class="text-4xl font-bold text-primary text-center mb-2">Pertanyaan Umum</h1>
-          <div class="flex justify-center mb-4">
-               <p class="px-3 py-2 bg-primary rounded-xl text-4xl font-bold text-white text-center w-fit">Unud Events</p>
+     <x-animation.slide-down>
+          <div class="mb-6">
+               <h1 class="text-4xl font-bold text-primary text-center mb-2">Pertanyaan Umum</h1>
+               <div class="flex justify-center mb-4">
+                    <p class="px-3 py-2 bg-primary rounded-xl text-4xl font-bold text-white text-center w-fit">Unud Events</p>
+               </div>
+              <p class="text-xl font-semibold text-primary text-center">Temukan jawaban dari pertanyaan yang paling sering ditanyakan seputar layanan Unud Events.</p>
           </div>
-         <p class="text-xl font-semibold text-primary text-center">Temukan jawaban dari pertanyaan yang paling sering ditanyakan seputar layanan Unud Events.</p>
-     </div>
-     <div class="flex flex-col gap-4 w-5xl mx-auto">
-          @foreach ($data as $question => $answer)
-          <div x-data="{ open: false }" @click="open = !open" class="flex flex-col gap-2 cursor-pointer select-none">
-               <div class="px-4 py-3 rounded-lg border-2 border-primary bg-white">
-                    <div class="flex justify-between items-center">
-                         <div class="flex gap-2 font-bold text-primary">
-                              <span>Q:</span>
-                              <span>{{ $question }}</span>
-                         </div>
-                         <div :class="open ? 'rotate-180' : ''">
-                              <x-icons.down-arrow class="text-primary!" />
+     </x-animation.slide-down>
+     <x-animation.slide-right>
+          <div class="flex flex-col gap-4 w-5xl mx-auto">
+               @foreach ($data as $question => $answer)
+               <div x-data="{ open: false }" @click="open = !open" class="flex flex-col gap-2 cursor-pointer select-none">
+                    <div class="px-4 py-3 rounded-lg border-2 border-primary bg-white">
+                         <div class="flex justify-between items-center">
+                              <div class="flex gap-2 font-bold text-primary">
+                                   <span>Q:</span>
+                                   <span>{{ $question }}</span>
+                              </div>
+                              <div :class="open ? 'rotate-180' : ''">
+                                   <x-icons.down-arrow class="text-primary!" />
+                              </div>
                          </div>
                     </div>
-               </div>
-               <div class="grid transition-all duration-300 ease-in-out"
-                    :class="open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'">
-                    <div class="overflow-hidden">
-                         <div class="px-4 py-3 rounded-lg border-2 border-primary bg-white">
-                              <div class="flex gap-2 font-medium text-primary">
-                                   <span>A:</span>
-                                   <span>{{ $answer }}</span>
+                    <div class="grid transition-all duration-300 ease-in-out"
+                         :class="open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'">
+                         <div class="overflow-hidden">
+                              <div class="px-4 py-3 rounded-lg border-2 border-primary bg-white">
+                                   <div class="flex gap-2 font-medium text-primary">
+                                        <span>A:</span>
+                                        <span>{{ $answer }}</span>
+                                   </div>
                               </div>
                          </div>
                     </div>
                </div>
+               @endforeach
           </div>
-          @endforeach
-     </div>
+     </x-animation.slide-right>
 </div>
 @endsection

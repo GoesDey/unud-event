@@ -4,37 +4,53 @@
     $first = 1;
 @endphp
 <div>
-    <section class="-mx-16 -mt-16 relative bg-white pb-12">
+    <section class="-mx-16 -mt-16 relative bg-white pb-12 min-h-150">
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute -bottom-50 left-1/2 -translate-x-1/2 translate-y-1/2 w-[140%] aspect-3/1 rounded-[50%] bg-blue-50"></div>
+            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 translate-y-1/2 w-[140%] aspect-3/1 rounded-[50%] bg-blue-50"></div>
         </div>
         
         <div class="relative z-10 py-16 text-center">
-            <div class="text-center font-bold text-[40px] text-primary mb-6">
-                <p>Cari <span class="bg-primary text-white px-2 py-1 rounded-lg">Event</span> yang Kamu</p>
-                <p>Minati!</p>
-            </div>
+            <x-animation.slide-down duration='900'>
+                <div class="text-center font-bold text-[40px] text-primary mb-6">
+                    <p>Cari <span class="bg-primary text-white px-2 py-1 rounded-lg">Event</span> yang Kamu</p>
+                    <p>Minati!</p>
+                </div>
+            </x-animation.slide-down>
 
-            <div class="flex gap-4 justify-center mb-3">
-                <input wire:model.live.debounce.300ms="search" class="p-3 w-143 border-2 border-primary rounded-lg bg-white text-primary font-bold text-lg" placeholder="Cari Event" type="text" >
-                <x-button class="w-39! bg-secondary shadow-md shadow-primary/25">Cari</x-button> 
-            </div>
+            <x-animation.slide-right>
+                <div class="flex gap-4 justify-center mb-3">
+                    <input wire:model.live.debounce.300ms="search" class="p-3 w-143 border-2 border-primary rounded-lg bg-white text-primary font-bold text-lg" placeholder="Cari Event" type="text" >
+                    <x-button class="w-39! bg-secondary shadow-md shadow-primary/25">Cari</x-button> 
+                </div>
+            </x-animation.slide-right>
             
             <div class="flex gap-4 justify-center flex-wrap">
-                <x-filter-dropdown :data="$eventTypes" methodName="setEventType" label="Pilih Tipe Event" />
-                <x-filter-dropdown :data="$categories" methodName="setCategory" label="Pilih Kategori" />
-                <x-filter-dropdown :data="$participants" methodName="setParticipant" label="Pilih Partisipan" />
-                <x-filter-dropdown :data="$priceOptions" methodName="setPrice" label="Pilih Pembayaran" />
-                <x-filter-dropdown :data="$locationOptions" methodName="setLocation" label="Pilih Lokasi" />
+                <x-animation.slide-up duration='900' class="w-fit!">
+                    <x-filter-dropdown :data="$eventTypes" methodName="setEventType" label="Pilih Tipe Event" />
+                </x-animation.slide-up>
+                <x-animation.slide-up duration='900' class="w-fit!">
+                    <x-filter-dropdown :data="$categories" methodName="setCategory" label="Pilih Kategori" />
+                </x-animation.slide-up>
+                <x-animation.slide-up duration='900' class="w-fit!">
+                    <x-filter-dropdown :data="$participants" methodName="setParticipant" label="Pilih Partisipan" />
+                </x-animation.slide-up>
+                <x-animation.slide-up duration='900' class="w-fit!">
+                    <x-filter-dropdown :data="$priceOptions" methodName="setPrice" label="Pilih Pembayaran" />
+                </x-animation.slide-up>
+                <x-animation.slide-up duration='900' class="w-fit!">
+                    <x-filter-dropdown :data="$locationOptions" methodName="setLocation" label="Pilih Lokasi" />
+                </x-animation.slide-up>
             </div>
         </div>
     </section>
 
     <section class="py-16 w-full">
-        <h2 class="text-center font-bold text-[40px] text-primary">
-            Jelajahi Event-Event Menarik dengan
-        </h2>
-        <h2 class="text-center font-bold text-[40px] text-primary mb-9">Berbagai Benefit</h2>
+        <x-animation.slide-right>
+            <h2 class="text-center font-bold text-[40px] text-primary">
+                Jelajahi Event-Event Menarik dengan
+            </h2>
+            <h2 class="text-center font-bold text-[40px] text-primary mb-9">Berbagai Benefit</h2>
+        </x-animation.slide-right>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             @forelse ($events as $event)
                 <x-event-card :data="$event" />
