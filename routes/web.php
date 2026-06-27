@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserPageController;
+use App\Livewire\User\UserEvent;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/events', UserEvent::class)->name('events');
+
 
 // Login
 Route::get('/admin/login', [LoginController::class, 'index'])->name('login');

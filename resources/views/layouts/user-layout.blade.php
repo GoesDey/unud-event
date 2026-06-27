@@ -5,7 +5,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <title>
       UNUD Events |
-      @yield ('title')
+      @yield('title', $title ?? 'Nama Website Kamu')
    </title>
    @vite (['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -19,12 +19,12 @@
       ],
       [
          'title' => 'Events',
-         'isActive' => false,
+         'isActive' => request()->is('events'),
          'to' => '/events',
       ],
       [
          'title' => 'FAQ',
-         'isActive' => false,
+         'isActive' => request()->is('faq'),
          'to' => '/faq',
       ],
    ];
