@@ -106,10 +106,10 @@ class EventSeeder extends Seeder
                   'instance' => $randomAdmin->major
                      ? 'Himpunan Mahasiswa ' . $randomAdmin->major->name
                      : 'Badan Eksekutif Mahasiswa Unud',
-                  'picture' => 'https://placehold.co/900x1200/png?text=Event+Udayana',
+                  'picture' => 'home/image-event-test.png',
+                  'link' => fake()->url(),
                   'location' => $item['location'],
                   'price' => $item['price'],
-                  'link' => 'https://loremipsum.io/generator/?n=3&t=p',
                   'start_date' => $startDate->toDateString(),
                   'end_date' => $startDate->copy()->addDays(rand(0, 2))->toDateString(),
                ]);

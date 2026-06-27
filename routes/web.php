@@ -1,7 +1,17 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserPageController;
+use App\Livewire\User\UserEvent;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/events', UserEvent::class)->name('events');
+Route::controller(UserPageController::class)->group(function (){
+   Route::get('/', 'index')->name('home');
+   Route::get('/events/{event}', 'detailEvent')->name('event-detail');
+});
+
 
 // Login
 Route::get('/admin/login', [LoginController::class, 'index'])->name('login');
@@ -24,5 +34,4 @@ Route::middleware(['auth', 'role:admin'])
       );
    });
 
-Route::view('/', 'welcome')->name('home');
 Route::view('/faq', 'user.faq')->name('faq');

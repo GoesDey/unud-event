@@ -45,9 +45,9 @@ class Event extends Model
       return $this->hasMany(Timeline::class);
    }
 
-   public function Author()
+   public function author()
    {
-      return $this->belongsTo(User::class);
+      return $this->belongsTo(User::class, 'user_id');
    }
 
    public function participants()
