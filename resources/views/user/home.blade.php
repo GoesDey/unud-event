@@ -101,10 +101,10 @@
                              <x-event-card :data="$event" />
                          @endforeach
                     </div>
-                    <button class="w-121 mx-auto flex items-center justify-center gap-2 bg-primary rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
+                    <a href="{{ route('events') }}" class="w-121 mx-auto flex items-center justify-center gap-2 bg-primary rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
                          <span class="text-white font-bold">Jelajahi Event</span>
                          <x-icons.right-arrow stroke-width="3" class="text-white" />
-                    </button>
+                    </a>
                </div>
           </x-animation.slide-up>
      </section>
