@@ -6,8 +6,11 @@ use App\Http\Controllers\UserPageController;
 use App\Livewire\User\UserEvent;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', UserEvent::class)->name('events');
+Route::controller(UserPageController::class)->group(function (){
+   Route::get('/', 'index')->name('home');
+   Route::get('/events/{event}', 'detailEvent')->name('event-detail');
+});
 
 
 // Login
