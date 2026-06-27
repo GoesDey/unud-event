@@ -5,19 +5,23 @@
    'classLabel' => '',
    'classInput' => '',
    'placeholder' => '',
+   'borderClass' => 'border-[#001524]/60 focus:border-black',
    'icon' => '',
+   'rows' => 2,
+   'value' => '',
+   'noError' => false,
    'togglePass' => false
 ])
 
 <div
    {{
-      $attributes->class([
-         'flex flex-col gap-1 ',
-      ])
+      $attributes
+         ->only('class')
+         ->class(['flex flex-col gap-1 transition duration-300'])
    }}
 >
    @if ($label)
-      <label for="{{ $name }}" @class (['font-semibold ', $classLabel])>{{ $label }}</label>
+      <label for="{{ $name }}" @class (['font-semibold block', $classLabel])>{{ $label }}</label>
    @endif
 
    <div @class (['relative flex items-center']) @if ($togglePass) x-data="{ show: false }" @endif>
@@ -30,21 +34,75 @@
          </div>
       @endif
 
-      <input
-         id="{{ $name }}"
-         name="{{ $name }}"
-         @if ($togglePass)
-            :type="show ? 'text' : 'password'"
-         @else
-            type="{{ $type }}"
-         @endif
-         placeholder="{{ $placeholder }}"
-         @class ([
-            'rounded-[10px] w-full border border-[#001524]/60 text-[#001524] px-3 py-3 text-sm font-medium focus:border-black focus:outline-none',
-            $classInput,
-            'pl-10' => $icon
-         ])
-      />
+      @if ($type === 'text area')
+         <textarea
+            id="{{ $name }}"
+            name="{{ $name }}"
+            rows="{{ $rows }}"
+            placeholder="{{ $placeholder }}"
+            {{
+               $attributes->except([
+                  'class',
+                  'classLabel',
+                  'classInput',
+                  'icon',
+                  'togglePass',
+                  'value',
+                  'placeholder',
+                  'rows',
+                  'type',
+                  'label',
+                  'name',
+                  'noError',
+                  'borderClass',
+               ])
+            }}
+            @class ([
+               'rounded-[10px] w-full border text-[#001524] px-3 py-3 text-sm font-medium focus:outline-none',
+               $borderClass => !$errors->has($name),
+               'border-red-500 focus:border-red-500' => $errors->has($name),
+               $classInput,
+               'pl-10' => $icon
+            ])
+            >{{ old($name, $value) }}</textarea
+         >
+      @else
+         <input
+            id="{{ $name }}"
+            name="{{ $name }}"
+            value="{{ $type === 'checkbox' ? $value : old($name, $value) }}"
+            {{
+               $attributes->except([
+                  'class',
+                  'classLabel',
+                  'classInput',
+                  'icon',
+                  'togglePass',
+                  'value',
+                  'placeholder',
+                  'rows',
+                  'type',
+                  'label',
+                  'name',
+                  'noError',
+                  'borderClass',
+               ])
+            }}
+            @if ($togglePass)
+               :type="show ? 'text' : 'password'"
+            @else
+               type="{{ $type }}"
+            @endif
+            placeholder="{{ $placeholder }}"
+            @class ([
+               'rounded-[10px] w-full border text-[#001524] px-3 py-3 text-sm font-medium focus:outline-none',
+               $borderClass => !$errors->has($name),
+               'border-red-500 focus:border-red-500' => $errors->has($name),
+               $classInput,
+               'pl-10' => $icon
+            ])
+         />
+      @endif
 
       @if ($togglePass)
          <button
@@ -58,7 +116,9 @@
       @endif
    </div>
 
-   @error ($name)
-      <span class="text-sm text-red-500">{{ $message }}</span>
-   @enderror
+   @if (!$noError)
+      @error ($name)
+         <span class="text-sm text-red-500">{{ $message }}</span>
+      @enderror
+   @endif
 </div>

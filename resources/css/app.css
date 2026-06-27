@@ -17,3 +17,7 @@
    --color-secondary: #ffc247;
    --color-soft-blue: #f3f8ff;
 }
+
+[x-cloak] {
+   display: none !important;
+}

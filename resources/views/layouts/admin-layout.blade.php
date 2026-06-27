@@ -4,10 +4,24 @@
    <meta charset="UTF-8" />
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <title>
-      Admin UNUD Events |
-      @yield ('title')
+      {{
+         auth()->user()?->role == 'admin'
+            ? 'Admin'
+            : 'Super Admin'
+      }} UNUD Events |
+      @if (isset($title))
+         {{ $title }}
+      @else
+         @yield ('title')
+      @endif
    </title>
    @vite (['resources/css/app.css', 'resources/js/app.js'])
+
+   @if (auth()->user()->role === 'super_admin')
+      @vite ('resources/js/superadmin.js')
+   @else
+      @vite ('resources/js/admin.js')
+   @endif
 </head>
 
 @php
@@ -15,13 +29,13 @@
       [
          'title' => 'Dashboard',
          'isActive' => request()->routeIs('admin.dashboard'),
-         'to' => '/admin',
+         'to' => route('admin.dashboard'),
          'icon' => 'house',
       ],
       [
          'title' => 'Manajemen Event',
-         'isActive' => false,
-         'to' => '/admin/manage-events',
+         'isActive' => request()->routeIs('admin.manage-event*'),
+         'to' => route('admin.manage-event'),
          'icon' => 'horn',
       ],
    ];
@@ -66,7 +80,11 @@
          </div>
       </nav>
       <main class="ml-72.5 min-h-screen">
-         @yield ('content')
+         @if (isset($slot))
+            {{ $slot }}
+         @else
+            @yield ('content')
+         @endif
       </main>
    </div>
 
