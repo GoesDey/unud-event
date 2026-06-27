@@ -35,9 +35,11 @@ class LoginController extends Controller
          };
       }
 
-      return back()->withErrors([
-         'username' => 'Username atau password salah.',
-      ]);
+      return back()
+         ->withErrors([
+            'username' => 'Username atau password salah.',
+         ])
+         ->withInput();
    }
 
    public function logout(Request $request)

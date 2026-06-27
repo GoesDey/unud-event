@@ -27,6 +27,7 @@
             >
                @csrf
                <x-input
+                  value="{{ old('username') }}"
                   classLabel="text-[#031459]"
                   label="Username"
                   name="username"
@@ -34,6 +35,7 @@
                   icon="user"
                />
                <x-input
+                  value="{{ old('password') }}" 
                   label="Password"
                   classLabel="text-[#031459]"
                   name="password"
