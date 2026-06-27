@@ -97,9 +97,13 @@
           <x-animation.slide-up>
                <div class="flex flex-col gap-9">
                     <div class="flex justify-center gap-5">
-                         @foreach ($events as $event)
-                             <x-event-card :data="$event" />
-                         @endforeach
+                         @forelse ($events as $event)
+                              <x-event-card :data="$event" />
+                         @empty
+                              <div class="w-full text-4xl text-primary">
+                                   Belum ada event untuk saat ini
+                              </div>
+                         @endforelse
                     </div>
                     <button class="w-121 mx-auto flex items-center justify-center gap-2 bg-primary rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
                          <span class="text-white font-bold">Jelajahi Event</span>
