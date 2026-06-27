@@ -41,8 +41,8 @@
                     </div>
                </div>
           </div>
-          <button class="w-full text-center gap-2 bg-secondary rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
-               <span class="text-primary font-bold">Lihat Detail</span>
-          </button>
+          <a href="{{ route('event-detail', $data->id) }}" class="w-full block text-center gap-2 bg-secondary text-primary font-bold rounded-lg p-3 shadow-md shadow-primary/25 cursor-pointer">
+               Lihat Detail
+          </a>
      </div>
 </div>

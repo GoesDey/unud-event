@@ -64,6 +64,7 @@ class EventSeeder extends Seeder
                         'major' => $randomAdmin->major ? $randomAdmin->major->name : null,
                         'instance' => $randomAdmin->major ? 'Himpunan Mahasiswa ' . $randomAdmin->major->name : 'Badan Eksekutif Mahasiswa Unud',
                         'picture' => 'home/image-event-test.png',
+                        'link' => fake()->url(),
                         'location' => $item['location'],
                         'price' => $item['price'],
                         'start_date' => $startDate->toDateString(),
