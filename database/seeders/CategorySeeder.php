@@ -28,9 +28,6 @@ class CategorySeeder extends Seeder
             'Fotografi',
             'Videografi',
             'Dance',
-            'Webinar',
-            'Workshop',
-            'Bakti Sosial',
             'Konser',
         ];
 
