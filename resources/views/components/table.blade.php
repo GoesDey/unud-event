@@ -39,12 +39,14 @@
                         'wire:model',
                      )
                   }}
+                  wire:confirm="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak bisa dibatalkan."
                   class="items-center text-indigo-600 focus:ring-indigo-500"
                   classInput="cursor-pointer"
                />
             @elseif ($loop->last && $showAction)
                <x-button
                   wire:click="$dispatch('delete-some-data')"
+                  wire:confirm="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak bisa dibatalkan."
                   class="w-fit! py-0! text-gray-500 transition-colors hover:text-red-500"
                >
                   <x-icons.trash class="size-5! text-inherit!" />

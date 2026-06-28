@@ -39,6 +39,16 @@
          'icon' => 'horn',
       ],
    ];
+
+
+   if (auth()->user()?->role === 'super_admin') {
+      $menus[] = [
+         'title' => 'Pengaturan',
+         'isActive' => request()->routeIs('super-admin.settings*'),
+         'to' => route('super-admin.settings'),                  
+         'icon' => 'gear',                                            
+      ];
+   }
 @endphp
 
 <body class="font-inter bg-soft-blue">
