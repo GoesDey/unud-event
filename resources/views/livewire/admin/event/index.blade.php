@@ -6,42 +6,89 @@
 
    <div class="mt-7">
       <div class="mb-4.75 flex gap-3">
-         <x-filter :filters="$filters">
+         <x-filter :filters="$sorts">
             <p class="px-4 pt-3 pb-1 text-xs text-gray-400">Nama Event</p>
             <button
-               class="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['name']) && $filters['name'] === 'asc' ? 'text-blue-500 font-semibold' : '' }}"
-               @click="$wire.filter('name', 'asc')"
+               class="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+               :class="$wire.sorts.name === 'asc' ? 'text-blue-500 font-semibold' : ''"
+               @click="$wire.addSort('name', 'asc')"
             >
-               A - Z
+               <span>A - Z</span>
+               <span x-show="$wire.sorts.name === 'asc'" x-cloak>
+                  <x-icons.checklist class="size-4!" />
+               </span>
             </button>
             <button
-               class="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['name']) && $filters['name'] === 'desc' ? 'text-blue-500 font-semibold' : '' }}"
-               @click="$wire.filter('name', 'desc')"
+               class="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+               :class="$wire.sorts.name === 'desc' ? 'text-blue-500 font-semibold' : ''"
+               @click="$wire.addSort('name', 'desc')"
             >
-               Z - A
+               <span> Z - A </span>
+               <span x-show="$wire.sorts.name === 'desc'" x-cloak>
+                  <x-icons.checklist class="size-4!" />
+               </span>
             </button>
 
             <hr class="my-1" />
 
             <p class="px-4 pt-1 pb-1 text-xs text-gray-400">Tanggal Event</p>
             <button
-               class="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['start_date']) && $filters['start_date'] === 'asc' ? 'text-blue-500 font-semibold' : '' }}"
-               @click="$wire.filter('start_date', 'asc')"
+               class="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+               :class="$wire.sorts.start_date === 'asc' ? 'text-blue-500 font-semibold' : ''"
+               @click="$wire.addSort('start_date', 'asc')"
             >
-               Terlama
+               <span>Terlama</span>
+               <span x-show="$wire.sorts.start_date === 'asc'" x-cloak>
+                  <x-icons.checklist class="size-4!" />
+               </span>
             </button>
             <button
-               class="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['start_date']) && $filters['start_date'] === 'desc' ? 'text-blue-500 font-semibold' : '' }}"
-               @click="$wire.filter('start_date', 'desc')"
+               class="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left text-sm hover:bg-gray-50"
+               :class="$wire.sorts.start_date === 'desc' ? 'text-blue-500 font-semibold' : ''"
+               @click="$wire.addSort('start_date', 'desc')"
             >
-               Terbaru
+               <span>Terbaru</span>
+               <span x-show="$wire.sorts.start_date === 'desc'" x-cloak>
+                  <x-icons.checklist class="size-4!" />
+               </span>
             </button>
          </x-filter>
-         <x-filter title="Kategori" :filter="$categories" var="categories">
-            <button
-               class="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['name']) && $filters['name'] === 'asc' ? 'text-blue-500 font-semibold' : '' }}"
-               @click="$wire.filter('name', 'asc')"
-            >
+
+         <x-filter title="Kategori" :filters="$filters['categories']" var="filters.categories">
+            @foreach ($categories as $item)
+               <button
+                  class="w-full flex justify-between items-center cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['name']) && $filters['name'] === 'asc' ? 'text-blue-500 font-semibold' : '' }}"
+                  @click="$wire.toggleFilter('category', {{ $item->id }})"
+               >
+                  <span
+                     :class="$wire.filters.categories.includes({{ $item->id }}) ? 'text-[#4318FF] font-semibold' : '' "
+                  >
+                     {{ $item->name }}
+                  </span>
+                  <span x-show="$wire.filters.categories.includes({{ $item->id }})" x-cloak>
+                     <x-icons.checklist class="size-4!" />
+                  </span>
+               </button>
+
+            @endforeach
+         </x-filter>
+         <x-filter title="Tipe" :filters="$filters['type']" var="filters.type">
+            @foreach ($types as $item)
+               <button
+                  class="w-full flex justify-between items-center cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-50 {{ isset($filters['name']) && $filters['name'] === 'asc' ? 'text-blue-500 font-semibold' : '' }}"
+                  @click="$wire.toggleFilter('type', {{ $item->id }})"
+               >
+                  <span
+                     :class="$wire.filters.type == {{ $item->id }} ? 'text-[#4318FF] font-semibold' : ''"
+                  >
+                     {{ $item->name }}
+                  </span>
+                  <span x-show="$wire.filters.type == {{ $item->id }}" x-cloak>
+                     <x-icons.checklist class="size-4!" />
+                  </span>
+               </button>
+
+            @endforeach
          </x-filter>
 
          <x-button

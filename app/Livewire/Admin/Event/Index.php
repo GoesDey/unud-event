@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Event;
 
+use App\Models\Category;
+use App\Models\EventType;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
@@ -19,24 +21,50 @@ class Index extends Component
    public array $deleteEvents = [];
    public bool $selectAll = false;
 
-   public array $filters = [];
-   public array $categories = [];
+   public array $sorts = [];
+   public array $filters = [
+      'categories' => [],
+      'type' => null,
+   ];
    public array $theads = ['', 'Nama Event', 'Tipe Event', 'Kategori', 'Status', ''];
 
    public function mount()
    {
       $this->loadData();
-      // dd($this->events);
    }
 
    #[Computed]
    public function events()
    {
-      return auth()
+      $query = auth()
          ->user()
          ->events()
-         ->with(['categories', 'eventType'])
-         ->paginate(10);
+         ->with(['categories', 'eventType']);
+
+      if ($this->search) {
+         $query->where('name', 'like', '%' . $this->search . '%');
+      }
+
+      if (!empty($this->filters['categories'])) {
+         $query->whereHas(
+            'categories',
+            fn($q) => $q->whereIn('categories.id', $this->filters['categories']),
+         );
+      }
+
+      if ($this->filters['type']) {
+         $query->where('event_type_id', $this->filters['type']);
+      }
+
+      if (!empty($this->sorts)) {
+         foreach ($this->sorts as $kolom => $order) {
+            if ($order) {
+               $query->orderBy($kolom, $order);
+            }
+         }
+      }
+
+      return $query->paginate(10);
    }
 
    public function updatedSelectAll($value)
@@ -74,18 +102,51 @@ class Index extends Component
 
    public function loadData() {}
 
-   public function filter(string $sortBy, string $sortOrder): void
+   public function addSort(string $sortBy, string $sortOrder): void
    {
-      if (isset($this->filters[$sortBy]) && $this->filters[$sortBy] === $sortOrder) {
-         unset($this->filters[$sortBy]);
+      if (isset($this->sorts[$sortBy]) && $this->sorts[$sortBy] === $sortOrder) {
+         unset($this->sorts[$sortBy]);
          return;
       }
-      $this->filters[$sortBy] = $sortOrder;
+      $this->sorts[$sortBy] = $sortOrder;
    }
 
-   public function removeFilter(string $sortBy)
+   public function removeSort(string $sortBy)
    {
-      unset($this->filters[$sortBy]);
+      unset($this->sorts[$sortBy]);
+   }
+
+   public function addFilter(string $filter, mixed $id)
+   {
+      match ($filter) {
+         'category' => ($this->filters['categories'][] = $id),
+         'type' => ($this->filters['type'] = $id),
+         default => null,
+      };
+   }
+
+   public function toggleFilter(string $filter, mixed $id)
+   {
+      match ($filter) {
+         'category' => in_array($id, $this->filters['categories'])
+            ? $this->removeFilter('category', $id)
+            : $this->addFilter('category', $id),
+
+         'type' => $this->filters['type'] === $id
+            ? $this->removeFilter('type', $id)
+            : $this->addFilter('type', $id),
+      };
+   }
+
+   public function removeFilter(string $filter, mixed $id)
+   {
+      match ($filter) {
+         'category' => ($this->filters['categories'] = array_values(
+            array_filter($this->filters['categories'], fn($c) => $c !== $id),
+         )),
+         'type' => ($this->filters['type'] = null),
+         default => null,
+      };
    }
 
    public function deleteEvent(int $id)
@@ -97,6 +158,9 @@ class Index extends Component
    public function render()
    {
       // dd($this->events);
-      return view('livewire.admin.event.index');
+      return view('livewire.admin.event.index', [
+         'categories' => Category::orderBy('name')->get(),
+         'types' => EventType::get(['id', 'name']),
+      ]);
    }
 }

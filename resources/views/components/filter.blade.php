@@ -1,5 +1,7 @@
-@props (['filters' => [], 'title' => 'Filter', 'var' => 'filters'])
-
+@props (['filters' => [], 'title' => 'Sort', 'var' => 'sorts'])
+@php
+   $filterArray = is_array($filters) ? $filters : [$filters];
+@endphp
 <div class="relative w-fit rounded-lg border border-gray-300 bg-white" x-data="{ open: false }">
    <button
       type="button"
@@ -8,11 +10,11 @@
    >
       <x-icons.filter class="size-5! text-gray-700!" />
       {{ $title }}
-      @if (count($filters))
+      @if (count($filterArray))
          <span
             class="flex size-5 items-center justify-center rounded-full bg-blue-500 text-xs text-white"
          >
-            {{ count($filters) }}
+            {{ count($filterArray) }}
          </span>
       @endif
    </button>
@@ -21,17 +23,19 @@
       x-cloak
       x-show="open"
       @click.outside="open = false"
-      class="absolute left-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border bg-white py-1 shadow-lg"
+      class="absolute left-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border bg-white shadow-lg"
    >
-      {{ $slot }}
+      <div class="[&::-webkit-scrollbar]:hidden max-h-60 scrollbar-none overflow-y-auto py-1">
+         {{ $slot }}
+      </div>
 
-      @if (count($filters))
+      @if (count($filterArray))
          <hr class="my-1" />
          <button
             class="w-full cursor-pointer px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-50"
             @click="
-               $wire.set('{{ $var }}', []);
-               open = false;
+                $wire.set('{{ $var }}', []);
+                open = false;
             "
          >
             Reset Filter

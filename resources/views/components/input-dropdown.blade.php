@@ -83,11 +83,13 @@
          <template x-for="option in filtered" :key="option.value">
             <li
                class="cursor-pointer px-4 py-2 text-sm hover:bg-gray-50"
-               :class="isSelected(option.value) ? 'text-blue-500 font-semibold' : 'text-[#001524]'"
+               :class="isSelected(option.value) ? 'text-[#4318FF] font-semibold' : 'text-[#001524]'"
                @click="toggle(option.value)"
             >
                <span x-text="option.label"></span>
-               <span x-show="isSelected(option.value)" class="float-right">✓</span>
+               <span x-show="isSelected(option.value)" class="float-right">
+                  <x-icons.checklist class="size-4! text-[#4318FF]!" />
+               </span>
             </li>
          </template>
 
