@@ -42,9 +42,9 @@
          </div>
       @endif
 
-      <div class="h-8 w-8 overflow-hidden rounded-full border border-slate-300 bg-slate-200">
+      <div class="size-8 overflow-hidden rounded-full border border-slate-300 bg-slate-200">
          <img
-            src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name ?? 'User') }}&background=0D8ABC&color=fff"
+            src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name ?? 'User') }}&background={{ substr(md5(auth()->user()->name ?? 'User'), 0, 6) }}&color=fff"
             alt="Profile"
             class="h-full w-full object-cover"
          />

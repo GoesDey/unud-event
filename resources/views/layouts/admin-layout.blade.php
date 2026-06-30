@@ -17,50 +17,57 @@
    </title>
    @vite (['resources/css/app.css', 'resources/js/app.js'])
 
-   @if (auth()->user()->role === 'super_admin')
-      @vite ('resources/js/superadmin.js')
-   @else
-      @vite ('resources/js/admin.js')
+   @if (auth())
+      @vite (['resources/js/superadmin.js', 'resources/js/admin.js'])
    @endif
 </head>
 
 @php
-   $menus = [
-      [
-         'title' => 'Dashboard',
-         'isActive' => request()->routeIs('admin.dashboard'),
-         'to' => route('admin.dashboard'),
-         'icon' => 'house',
+   $userRole = auth()->user()->role;
+   $menus = match ($userRole) {
+      'admin' => [
+         [
+            'title' => 'Dashboard',
+            'isActive' => request()->routeIs('admin.dashboard'),
+            'to' => route('admin.dashboard'),
+            'icon' => 'house',
+         ],
+         [
+            'title' => 'Manajemen Event',
+            'isActive' => request()->routeIs('admin.manage-event*'),
+            'to' => route('admin.manage-event'),
+            'icon' => 'horn',
+         ],
       ],
-      [
-         'title' => 'Manajemen Event',
-         'isActive' => request()->routeIs('admin.manage-event*'),
-         'to' => route('admin.manage-event'),
-         'icon' => 'horn',
+      'super_admin' => [
+         [
+            'title' => 'Manajemen User',
+            'isActive' => request()->routeIs('super-admin.manage-user*'),
+            'to' => route('super-admin.manage-user'),
+            'icon' => 'user-solid',
+         ],
+         [
+            'title' => 'Pengaturan',
+            'isActive' => request()->routeIs('super-admin.settings*'),
+            'to' => route('super-admin.settings'),
+            'icon' => 'gear',
+         ],
       ],
-   ];
-
-
-   if (auth()->user()?->role === 'super_admin') {
-      $menus[] = [
-         'title' => 'Pengaturan',
-         'isActive' => request()->routeIs('super-admin.settings*'),
-         'to' => route('super-admin.settings'),                  
-         'icon' => 'gear',                                            
-      ];
-   }
+   };
 @endphp
 
 <body class="font-inter bg-soft-blue">
    <div class="">
       <nav class="fixed top-0 left-0 flex min-h-screen w-72.5 flex-col bg-white pt-14">
          <div class="relative mx-auto mb-5.5 w-fit flex-none px-8.25">
-            <h1 class="text-2xl font-bold text-[#2B3674]">ADMIN EVENT</h1>
+            <h1 class="text-2xl font-bold text-[#2B3674]">
+               {{ $userRole == 'admin' ? 'ADMIN' : 'SUPER ADMIN' }} EVENT
+            </h1>
             <h2 class="text-2xl font-bold text-[#2B3674]">
                Hi!
                <span class="uppercase">{{
                   auth()->user()?->username ??
-                     'Admin'
+                     ($userRole == 'admin' ? 'Admin' : 'Super Admin')
                }}</span>
             </h2>
          </div>

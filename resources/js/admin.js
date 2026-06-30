@@ -7,9 +7,8 @@ Alpine.data(
       options,
 
       init() {
-         // Sync ke Livewire saat Alpine re-init
          if (wireModel) {
-            this.$watch('$wire.' + wireModel, (value) => {
+         this.$watch('$wire.' + wireModel, (value) => {
                this.selected = value ?? (multiple ? [] : '');
             });
          }
