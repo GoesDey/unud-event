@@ -29,8 +29,8 @@ class LoginController extends Controller
          $request->session()->regenerate();
 
          return match (Auth::user()->role) {
-            'super_admin' => redirect()->route('super-admin.dashboard'),
-            'admin' => redirect()->route('admin.dashboard'),
+            'super_admin' => redirect()->route('super-admin.manage-user'),
+            'admin' => redirect()->route('admin.manage-event'),
             default => redirect()->route('home'),
          };
       }

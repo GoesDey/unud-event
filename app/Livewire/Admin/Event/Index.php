@@ -70,7 +70,6 @@ class Index extends Component
    public function updatedSelectAll($value)
    {
       if ($value) {
-         // Ambil semua ID di halaman ini menggunakan Computed $this->events
          $this->deleteEvents = $this->events->pluck('id')->map(fn($id) => (string) $id)->toArray();
       } else {
          $this->deleteEvents = [];

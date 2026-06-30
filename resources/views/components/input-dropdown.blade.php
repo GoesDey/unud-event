@@ -67,7 +67,7 @@
       x-show="open"
       x-transition
       x-cloak
-      class="absolute right-0 left-0 z-10 mt-1 rounded-[10px] border border-[#001524]/20 bg-white shadow-lg"
+      class="absolute right-0 left-0 z-10 mt-1 overflow-hidden rounded-[10px] border border-[#001524]/20 bg-white shadow-lg"
    >
       <div class="p-2">
          <input
