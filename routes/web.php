@@ -38,7 +38,7 @@ Route::middleware(['auth', 'role:admin'])
    ->prefix('admin')
    ->name('admin.')
    ->group(function () {
-      // Route::view('/', 'admin.dashboard')->name('dashboard');
+      Route::view('/', 'admin.dashboard')->name('dashboard');
       Route::get('/manage-event', App\Livewire\Admin\Event\Index::class)->name('manage-event');
       Route::get('/manage-event/add', App\Livewire\Admin\Event\Create::class)->name(
          'manage-event.create',

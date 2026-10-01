@@ -31,11 +31,19 @@ class Index extends Component
    {
       $user = auth()->user();
       $userFaculty = $user->faculty;
-      $query = null;
-      if ($userFaculty) {
-         $query = User::where(['faculty_id' => $userFaculty->id, 'role' => 'admin']);
-      } else {
-         $query = User::whereNot('id', $user->id);
+
+      $query = $userFaculty
+         ? User::where(['faculty_id' => $userFaculty->id, 'role' => 'admin'])
+         : User::whereNot('id', $user->id);
+
+      if ($this->search) {
+         $query->where(function ($q) {
+            $q->where('username', 'like', '%' . $this->search . '%')->orWhere(
+               'email',
+               'like',
+               '%' . $this->search . '%',
+            );
+         });
       }
 
       return $query->select(['id', 'username', 'email', 'status'])->paginate(8);

@@ -149,6 +149,7 @@
                   <x-button
                      class="w-fit! py-0! text-gray-500 transition-colors hover:text-red-500"
                      wire:click="deleteUser({{ $user->id }})"
+                     wire:confirm="Yakin ingin menghapus user?"
                   >
                      <x-icons.trash class="size-5! text-inherit!" />
                   </x-button>
@@ -165,12 +166,12 @@
          @empty
             <div class="flex w-full flex-col items-center justify-center px-4 py-16 text-center">
                <div class="mb-4 rounded-full bg-slate-50 p-4">
-                  <x-icons.folder class="size-10! fill-gray-500" />
+                  <x-icons.user-solid class="size-10! fill-gray-500" />
                </div>
 
-               <h3 class="mb-1 text-base font-bold text-slate-700">Belum Ada Event</h3>
+               <h3 class="mb-1 text-base font-bold text-slate-700">Belum Ada User</h3>
 
-               <p class="mb-6 max-w-sm text-sm text-slate-500">Anda belum membuat event apapun, atau event yang Anda cari tidak ditemukan dalam database.</p>
+               <p class="mb-6 max-w-sm text-sm text-slate-500">Anda belum menambahkan user satupun, atau user yang Anda cari tidak ditemukan dalam database.</p>
             </div>
          @endforelse
       </x-table>

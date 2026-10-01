@@ -21,10 +21,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             EventTypeSeeder::class,
             CategorySeeder::class,
-            ParticipantSeeder::class,      // 1. Jalankan master peserta ('SD', 'SMP', dll)
-            EventSeeder::class,            // 2. Jalankan pembuatan 5 event
-            EventCategorySeeder::class,    // 3. Hubungkan event dengan kategori
-            EventParticipantSeeder::class, // 4. Hubungkan event dengan target peserta (Paling akhir)
+            ParticipantSeeder::class,      // 1. Jalankan master peserta
+            EventSeeder::class,            // 2. Jalankan pembuatan 15 event + detail + timeline + pivot kategori/peserta
         ]);
     }
 }

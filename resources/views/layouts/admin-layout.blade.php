@@ -52,7 +52,7 @@
             'to' => route('super-admin.settings'),
             'icon' => 'gear',
          ],
-      ],
+      ], 
    };
 @endphp
 
